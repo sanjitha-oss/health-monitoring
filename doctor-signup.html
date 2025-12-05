@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Registration - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .doctor-container {
+      width: 100%;
+      max-width: 500px;
+    }
+    .doctor-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      animation: slideIn 0.4s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .doctor-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .doctor-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .doctor-header h1 {
+      margin: 0 0 10px 0;
+      color: #2c3e50;
+      font-size: 28px;
+    }
+    .doctor-header p {
+      margin: 0;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .form-row.full {
+      grid-template-columns: 1fr;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #ecf0f1;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+      box-sizing: border-box;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    .form-helper {
+      font-size: 12px;
+      color: #7f8c8d;
+      margin-top: 4px;
+    }
+    .btn-signup {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    .btn-signup:active {
+      transform: translateY(0);
+    }
+    .terms-checkbox {
+      font-size: 14px;
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+    .terms-checkbox input {
+      margin-right: 8px;
+    }
+    .error-alert,
+    .success-alert {
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      border-left: 4px solid;
+    }
+    .error-alert.show {
+      display: block;
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+      animation: shake 0.3s;
+    }
+    .success-alert.show {
+      display: block;
+      background: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .back-link a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 38px;
+      cursor: pointer;
+      color: #667eea;
+      font-size: 18px;
+      user-select: none;
+      transition: color 0.2s;
+    }
+    .password-toggle:hover {
+      color: #764ba2;
+    }
+    .form-divider {
+      text-align: center;
+      color: #bdc3c7;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="doctor-container">
+    <div class="doctor-card">
+      <div class="doctor-header">
+        <div class="doctor-badge">🏥 DOCTOR REGISTRATION</div>
+        <h1>Register as Doctor</h1>
+        <p>Create your professional account</p>
+      </div>
+
+      <div id="errorAlert" class="error-alert">
+        <strong>Error:</strong> <span id="errorText"></span>
+      </div>
+
+      <div id="successAlert" class="success-alert">
+        Account created successfully! Redirecting to login...
+      </div>
+
+      <form id="doctorSignupForm">
+        <div class="form-row full">
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              placeholder="Dr. Jane Smith"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="jane.smith@hospital.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="+44 20 7946 0958"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="license">Medical License Number</label>
+            <input
+              type="text"
+              id="license"
+              name="license"
+              placeholder="GMC123456"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="specialty">Specialty</label>
+            <select id="specialty" name="specialty" required>
+              <option value="">-- Select Specialty --</option>
+              <option value="General Practice">General Practice</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Orthopedics">Orthopedics</option>
+              <option value="Pediatrics">Pediatrics</option>
+              <option value="Psychiatry">Psychiatry</option>
+              <option value="Dermatology">Dermatology</option>
+              <option value="Surgery">Surgery</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hospital">Hospital / Clinic Name</label>
+            <input
+              type="text"
+              id="hospital"
+              name="hospital"
+              placeholder="St. Mary's Hospital"
+            />
+          </div>
+          <div class="form-group">
+            <label for="experience">Years of Experience</label>
+            <input
+              type="number"
+              id="experience"
+              name="experience"
+              placeholder="10"
+              min="0"
+              max="70"
+            />
+          </div>
+        </div>
+
+        <div class="form-row full">
+          <div class="form-group password-wrapper">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              required
+            />
+            <span class="password-toggle" id="togglePassword">👁️</span>
+            <div class="form-helper">At least 8 characters, 1 uppercase, 1 number, 1 special character</div>
+          </div>
+        </div>
+
+        <div class="form-row full">
+          <div class="form-group password-wrapper">
+            <label for="confirmpass">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmpass"
+              name="confirmpass"
+              placeholder="••••••••"
+              required
+            />
+            <span class="password-toggle" id="toggleConfirmPass">👁️</span>
+          </div>
+        </div>
+
+        <div class="terms-checkbox">
+          <label>
+            <input type="checkbox" id="terms" required />
+            I agree to Terms & Privacy Policy and confirm I am a licensed medical professional
+          </label>
+        </div>
+
+        <button type="submit" class="btn-signup">Create Doctor Account</button>
+      </form>
+
+      <div class="back-link">
+        Already have an account? <a href="doctor-login.html">Sign in here</a><br><br>
+        <a href="index.html">← Back to Role Selection</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Password show/hide toggle
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleConfirmPass = document.getElementById('toggleConfirmPass');
+    const passwordInput = document.getElementById('password');
+    const confirmPassInput = document.getElementById('confirmpass');
+    
+    togglePassword.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        togglePassword.textContent = '🙈';
+      } else {
+        passwordInput.type = 'password';
+        togglePassword.textContent = '👁️';
+      }
+    });
+
+    toggleConfirmPass.addEventListener('click', () => {
+      if (confirmPassInput.type === 'password') {
+        confirmPassInput.type = 'text';
+        toggleConfirmPass.textContent = '🙈';
+      } else {
+        confirmPassInput.type = 'password';
+        toggleConfirmPass.textContent = '👁️';
+      }
+    });
+
+    document.getElementById('doctorSignupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fullname = document.getElementById('fullname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const license = document.getElementById('license').value.trim();
+      const specialty = document.getElementById('specialty').value;
+      const hospital = document.getElementById('hospital').value.trim();
+      const experience = document.getElementById('experience').value;
+      const password = document.getElementById('password').value;
+      const confirmpass = document.getElementById('confirmpass').value;
+      const terms = document.getElementById('terms').checked;
+
+      const errorAlert = document.getElementById('errorAlert');
+      const errorText = document.getElementById('errorText');
+      const successAlert = document.getElementById('successAlert');
+
+      // Reset alerts
+      errorAlert.classList.remove('show');
+      successAlert.classList.remove('show');
+
+      // Validation
+      if (!fullname || !email || !phone || !license || !specialty) {
+        showError('All required fields must be filled.');
+        return;
+      }
+
+      if (password !== confirmpass) {
+        showError('Passwords do not match.');
+        return;
+      }
+
+      if (password.length < 8) {
+        showError('Password must be at least 8 characters.');
+        return;
+      }
+
+      if (!/[A-Z]/.test(password)) {
+        showError('Password must contain at least one uppercase letter.');
+        return;
+      }
+
+      if (!/[0-9]/.test(password)) {
+        showError('Password must contain at least one number.');
+        return;
+      }
+
+      if (!terms) {
+        showError('You must agree to the terms and conditions.');
+        return;
+      }
+
+      // Check if doctor already exists
+      const doctors = JSON.parse(localStorage.getItem('doctors') || '{}');
+      if (Object.values(doctors).some(d => d.email === email)) {
+        showError('Email already registered.');
+        return;
+      }
+
+      if (Object.values(doctors).some(d => d.license === license)) {
+        showError('License number already registered.');
+        return;
+      }
+
+      // Save new doctor
+      const doctorId = 'DOC-' + Date.now().toString().slice(-6);
+      const doctor = {
+        id: doctorId,
+        fullname,
+        email,
+        phone,
+        license,
+        specialty,
+        hospital,
+        experience: experience || '0',
+        password,
+        registeredAt: new Date().toISOString(),
+      };
+
+      doctors[doctorId] = doctor;
+      localStorage.setItem('doctors', JSON.stringify(doctors));
+
+      // Show success
+      successAlert.classList.add('show');
+
+      // Redirect to doctor login
+      setTimeout(() => {
+        window.location.href = 'doctor-login.html';
+      }, 2000);
+    });
+
+    function showError(message) {
+      const errorAlert = document.getElementById('errorAlert');
+      const errorText = document.getElementById('errorText');
+      errorText.innerText = message;
+      errorAlert.classList.add('show');
+    }
+  </script>
+</body>
+</html>
