@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">❤️ HealthMonitor</div>
+        <h1 class="auth-title">Create Account</h1>
+        <p class="auth-subtitle">Join us to monitor your health</p>
+      </div>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="John Smith"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Contact Phone</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="+44 7700 900000"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="nhs">NHS Number (optional)</label>
+          <input
+            type="text"
+            id="nhs"
+            name="nhs"
+            placeholder="123 456 7890"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            required
+          />
+          <div class="form-helper">At least 8 characters, 1 uppercase, 1 number</div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmpass">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmpass"
+            name="confirmpass"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+
+        <label style="margin-bottom: var(--spacing-lg);">
+          <input type="checkbox" id="terms" required /> I agree to Terms & Privacy Policy
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Create Account</button>
+      </form>
+
+      <div id="successMsg" class="alert alert-success hidden" style="margin-top: var(--spacing-lg);">
+        Account created! Redirecting to patient details...
+      </div>
+
+      <div id="errorMsg" class="alert alert-danger hidden" style="margin-top: var(--spacing-lg);">
+        <strong>Error:</strong> <span id="errorText"></span>
+      </div>
+
+      <div class="auth-link">
+        Already have an account? <a href="login.html">Sign in here</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fullname = document.getElementById('fullname').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const dob = document.getElementById('dob').value;
+      const nhs = document.getElementById('nhs').value;
+      const password = document.getElementById('password').value;
+      const confirmpass = document.getElementById('confirmpass').value;
+
+      const errorMsg = document.getElementById('errorMsg');
+      const errorText = document.getElementById('errorText');
+      const successMsg = document.getElementById('successMsg');
+
+      // Validation
+      if (password !== confirmpass) {
+        errorMsg.classList.remove('hidden');
+        errorText.innerText = 'Passwords do not match.';
+        return;
+      }
+
+      if (password.length < 8) {
+        errorMsg.classList.remove('hidden');
+        errorText.innerText = 'Password must be at least 8 characters.';
+        return;
+      }
+
+      // Check if user exists
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      if (Object.values(users).some(u => u.email === email)) {
+        errorMsg.classList.remove('hidden');
+        errorText.innerText = 'Email already registered.';
+        return;
+      }
+
+      // Save new user
+      const userId = Date.now().toString();
+      const user = {
+        id: userId,
+        fullname,
+        email,
+        phone,
+        dob,
+        nhs,
+        password,
+        registeredAt: new Date().toISOString(),
+      };
+
+      users[userId] = user;
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('currentUser', JSON.stringify(user));
+
+      // Show success
+      errorMsg.classList.add('hidden');
+      successMsg.classList.remove('hidden');
+
+      // Redirect to patient details
+      setTimeout(() => {
+        window.location.href = 'patient-details.html';
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

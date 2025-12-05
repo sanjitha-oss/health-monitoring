@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Patient Information</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .patient-page{max-width:700px;margin:40px auto;background:#fff;padding:28px;border-radius:18px;box-shadow:0 24px 60px rgba(15,23,42,.15)}
+    .patient-page h2{margin:0 0 4px 0}
+    .patient-page p{margin:0 0 18px 0;font-size:14px;color:#6b7280}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .full{grid-column:1 / -1}
+    .actions{margin-top:20px;display:flex;gap:12px;justify-content:flex-end}
+  </style>
+</head>
+<body class="bg">
+
+  <div class="patient-page" id="patientCard">
+    <h2>Patient Information</h2>
+    <p>Fill the patient details here and download the record.</p>
+
+    <div class="grid">
+      <div>
+        <label class="label">Patient Name</label>
+        <input type="text" id="pName" class="input" placeholder="Enter name">
+      </div>
+
+      <div>
+        <label class="label">Age</label>
+        <input type="number" id="pAge" class="input" placeholder="Enter age">
+      </div>
+
+      <div>
+        <label class="label">Gender</label>
+        <select id="pGender" class="input">
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="label">Contact Number</label>
+        <input type="tel" id="pPhone" class="input" placeholder="Enter phone">
+      </div>
+
+      <div class="full">
+        <label class="label">Address</label>
+        <textarea id="pAddress" class="input" rows="2" placeholder="Enter address"></textarea>
+      </div>
+
+      <div>
+        <label class="label">Disease / Condition</label>
+        <input type="text" id="pCondition" class="input" placeholder="E.g. Diabetes">
+      </div>
+
+      <div>
+        <label class="label">Doctor Assigned</label>
+        <input type="text" id="pDoctor" class="input" placeholder="Doctor name">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="saveBtn" class="btn-outline">Save</button>
+      <button id="downloadBtn" class="btn-primary small">Download (JPG)</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    const saveBtn = document.getElementById('saveBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    saveBtn.addEventListener('click', () => {
+      const patient = {
+        name: pName.value,
+        age: pAge.value,
+        gender: pGender.value,
+        phone: pPhone.value,
+        address: pAddress.value,
+        condition: pCondition.value,
+        doctor: pDoctor.value
+      };
+      localStorage.setItem('patientInfo', JSON.stringify(patient));
+      alert('Patient info saved successfully ✅');
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const card = document.getElementById('patientCard');
+
+      html2canvas(card).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'patient_info.jpg';
+        link.href = canvas.toDataURL('image/jpeg');
+        link.click();
+      });
+    });
+  </script>
+
+</body>
+</html>
+<script>
+// Load saved patient info into dashboard
+const patient = JSON.parse(localStorage.getItem('patientInfo'));
+
+if(patient){
+  document.querySelector('.patient-name').innerText = patient.name || 'N/A';
+  document.querySelector('.patient-age').innerText = patient.age || 'N/A';
+}
+</script>
+
+
+<script>
+document.querySelector('.save').addEventListener('click',()=>{
+   const patientInfo={
+     name: document.querySelector('input[placeholder="Enter name"]').value,
+     age: document.querySelector('input[placeholder="Enter age"]').value,
+     gender: document.querySelector('select').value,
+     phone: document.querySelector('input[placeholder="Enter phone"]').value,
+     blood: document.querySelector('input[placeholder="Eg: B+"]').value,
+     diagnosis: document.querySelector('input[placeholder="Enter diagnosis"]').value,
+     address: document.querySelector('textarea').value
+   }
+   localStorage.setItem('patientInfo',JSON.stringify(patientInfo));
+   alert('Patient Info Saved & Linked!');
+   window.location.href='dashboard.html';
+})
+</script>
+```
+

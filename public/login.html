@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">❤️ HealthMonitor</div>
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Sign in to your account to continue</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email or Username</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="••••••••"
+            required
+          />
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+          <label style="margin-bottom: 0;">
+            <input type="checkbox" id="remember" /> Remember me
+          </label>
+          <a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px;">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Sign In</button>
+      </form>
+
+      <div id="errorMsg" class="alert alert-danger hidden" style="margin-top: var(--spacing-lg);">
+        <strong>Login Failed:</strong> <span id="errorText"></span>
+      </div>
+
+      <div class="auth-link">
+        Don't have an account? <a href="signup.html">Sign up here</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Mock login: check localStorage for registered user
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      const user = Object.values(users).find(u => u.email === email && u.password === password);
+
+      if (user) {
+        // Store logged-in user
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
+      } else {
+        // Show error
+        document.getElementById('errorMsg').classList.remove('hidden');
+        document.getElementById('errorText').innerText = 'User not found. Please sign up first.';
+      }
+    });
+  </script>
+</body>
+</html>

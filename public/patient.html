@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patient Summary - Health Monitor</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* page layout */
+    .container{max-width:800px;margin:28px auto;padding:20px;background:#fff;border-radius:8px}
+    .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .logo{font-weight:700;font-size:18px}
+    .nhs{color:#005eb8;font-weight:800}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#111827}
+    .input,textarea,select{width:100%;padding:8px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+    textarea{resize:vertical}
+    .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+    .print-card{background:#fff;padding:18px;border-radius:6px}
+
+    /* printable layout (A4) */
+    @media print{
+      body{background:#fff}
+      .actions,.no-print{display:none}
+      .container{box-shadow:none;border:none;margin:0;padding:0}
+    }
+
+    /* patient summary visual (for PDF) */
+    .summary-row{display:flex;justify-content:space-between;margin-bottom:8px}
+    .summary-label{color:#374151;font-weight:600}
+    .summary-value{color:#111827}
+  </style>
+</head>
+<body class="bg">
+  <main class="container">
+    <div class="header">
+      <div>
+        <div class="logo nhs">Health Monitor - Patient Summary</div>
+        <div style="font-size:12px;color:#6b7280">Trusted patient record format (printable)</div>
+      </div>
+      <div style="text-align:right;font-size:12px;color:#6b7280">Generated: <span id="generatedDate">-</span></div>
+    </div>
+
+    <!-- Lookup / patient selector -->
+    <div style="margin-bottom:12px;display:flex;gap:8px;align-items:center;">
+      <input id="lookupInput" class="input" placeholder="Enter NHS number or full name to lookup" style="flex:1" />
+      <button id="lookupBtn" class="btn-secondary">Lookup</button>
+      <button id="newBtn" class="btn-outline">New Patient</button>
+    </div>
+
+    <section class="print-card" id="patientCard">
+      <div id="statusMsg" style="margin-bottom:8px;color:#065f46;font-weight:600"></div>
+      <div class="grid">
+        <div>
+          <label>Patient Full Name</label>
+          <input id="name" class="input" placeholder="e.g. John Smith" />
+        </div>
+
+        <div>
+          <label>Date of Birth</label>
+          <input id="dob" type="date" class="input" />
+        </div>
+
+        <div>
+          <label>NHS / Patient ID</label>
+          <input id="nhs" class="input" placeholder="NHS number or local ID" />
+        </div>
+
+        <div>
+          <label>Gender</label>
+          <select id="gender" class="input"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+
+        <div>
+          <label>Contact Number</label>
+          <input id="phone" class="input" placeholder="Telephone" />
+        </div>
+
+        <div>
+          <label>Admission Date</label>
+          <input id="admission" type="date" class="input" />
+        </div>
+
+        <div class="full" style="grid-column:1 / -1">
+          <label>Address</label>
+          <textarea id="address" rows="2" class="input" placeholder="Home address"></textarea>
+        </div>
+
+        <div>
+          <label>GP / Clinic</label>
+          <input id="gp" class="input" placeholder="GP name or clinic" />
+        </div>
+
+        <div>
+          <label>Allergies</label>
+          <input id="allergies" class="input" placeholder="List allergies" />
+        </div>
+
+        <div class="full" style="grid-column:1 / -1">
+          <label>Primary diagnosis / notes</label>
+          <textarea id="notes" rows="4" class="input" placeholder="Clinical notes, summary, medications"></textarea>
+        </div>
+
+        <!-- Vitals block (hidden for quick lookup if patient exists) -->
+        <div class="full vitals" style="grid-column:1 / -1;display:none;margin-top:8px">
+          <h4 style="margin:6px 0">Vital Signs (required for new patients)</h4>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+            <div>
+              <label>Systolic BP</label>
+              <input id="bp_sys" class="input" placeholder="e.g. 120" />
+            </div>
+            <div>
+              <label>Diastolic BP</label>
+              <input id="bp_dia" class="input" placeholder="e.g. 80" />
+            </div>
+            <div>
+              <label>Heart Rate (bpm)</label>
+              <input id="hr" class="input" placeholder="e.g. 72" />
+            </div>
+            <div>
+              <label>Respiratory Rate</label>
+              <input id="rr" class="input" placeholder="e.g. 16" />
+            </div>
+            <div>
+              <label>Temperature (°C)</label>
+              <input id="temp" class="input" placeholder="e.g. 36.7" />
+            </div>
+            <div>
+              <label>SpO2 (%)</label>
+              <input id="spo2" class="input" placeholder="e.g. 98" />
+            </div>
+            <div>
+              <label>Weight (kg)</label>
+              <input id="weight" class="input" placeholder="e.g. 70" />
+            </div>
+            <div>
+              <label>Height (cm)</label>
+              <input id="height" class="input" placeholder="e.g. 170" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;border-top:1px solid #e5e7eb;padding-top:12px">
+        <h3 style="margin:0 0 8px 0">Preview</h3>
+        <div id="previewArea">
+          <!-- summary produced by JS -->
+        </div>
+      </div>
+    </section>
+
+    <div class="actions no-print">
+      <button id="loadBtn" class="btn-outline">Load</button>
+      <button id="saveBtn" class="btn-secondary">Save</button>
+      <button id="printBtn" class="btn-primary">Print</button>
+      <button id="pdfBtn" class="btn-primary">Download PDF</button>
+      <button id="jpgBtn" class="btn-secondary">Download JPG</button>
+      <button id="clearBtn" class="btn-outline">Clear</button>
+    </div>
+  </main>
+
+  <!-- html2pdf bundle includes html2canvas and jsPDF -- use CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script src="js/patient.js"></script>
+</body>
+</html>

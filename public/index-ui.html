@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthMonitor - UI System Index</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0B75D6 0%, #084594 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
+    }
+    h1 {
+      color: #0B75D6;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+    .subtitle {
+      color: #64748B;
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .page-card {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .page-card:hover {
+      border-color: #0B75D6;
+      box-shadow: 0 12px 32px rgba(11, 117, 214, 0.12);
+      transform: translateY(-4px);
+    }
+    .page-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+    .page-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #1E293B;
+      margin-bottom: 8px;
+    }
+    .page-desc {
+      font-size: 13px;
+      color: #64748B;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .page-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #0B75D6;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .page-btn:hover {
+      background: #084594;
+    }
+    .features {
+      background: #f0f9ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .features h2 {
+      color: #0B75D6;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    .features ul {
+      list-style: none;
+      columns: 2;
+      gap: 24px;
+    }
+    .features li {
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+    }
+    .features li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #0F9D58;
+      font-weight: 700;
+    }
+    .getting-started {
+      background: #fef3c7;
+      border-left: 4px solid #F57C00;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+    .getting-started h3 {
+      color: #F57C00;
+      margin-bottom: 12px;
+    }
+    .getting-started ol {
+      margin-left: 20px;
+      line-height: 1.8;
+    }
+    .tech-stack {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .tech-item {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0B75D6;
+    }
+    .section-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 40px 0;
+    }
+    footer {
+      text-align: center;
+      color: #64748B;
+      font-size: 12px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>❤️ HealthMonitor - Complete UI System</h1>
+    <p class="subtitle">Hospital-grade health monitoring platform with modern, minimal design</p>
+
+    <!-- Pages Grid -->
+    <h2 style="color: #1E293B; margin-bottom: 24px; font-size: 24px;">📄 Pages & Flows</h2>
+    <div class="pages-grid">
+      <!-- Login -->
+      <a href="login.html" class="page-card" style="text-decoration: none;">
+        <div class="page-icon">🔐</div>
+        <div class="page-title">Login</div>
+        <div class="page-desc">Email/password authentication. Existing users sign in here.</div>
+        <div class="page-btn">Open →</div>
+      </a>
+
+      <!-- Signup -->
+      <a href="signup.html" class="page-card" style="text-decoration: none;">
+        <div class="page-icon">📝</div>
+        <div class="page-title">Sign Up</div>
+        <div class="page-desc">New patient registration with validation. Auto-redirects to patient details.</div>
+        <div class="page-btn">Open →</div>
+      </a>
+
+      <!-- Patient Details -->
+      <a href="patient-details.html" class="page-card" style="text-decoration: none;">
+        <div class="page-icon">👤</div>
+        <div class="page-title">Patient Details</div>
+        <div class="page-desc">First page after login. Collect health info and user preferences.</div>
+        <div class="page-btn">Open →</div>
+      </a>
+
+      <!-- Monitoring -->
+      <a href="monitoring.html" class="page-card" style="text-decoration: none;">
+        <div class="page-icon">📈</div>
+        <div class="page-title">Health Monitoring</div>
+        <div class="page-desc">Real-time vitals dashboard. Manual entry, device connection, charts, trends.</div>
+        <div class="page-btn">Open →</div>
+      </a>
+
+      <!-- Consult Doctor -->
+      <a href="consult.html" class="page-card" style="text-decoration: none;">
+        <div class="page-icon">🏥</div>
+        <div class="page-title">Consult Doctor</div>
+        <div class="page-desc">Doctor directory, booking, waiting room, consultation interface.</div>
+        <div class="page-btn">Open →</div>
+      </a>
+
+      <!-- Dashboard -->
+      <a href="dashboard.html" class="page-card" style="text-decoration: none;">
+        <div class="page-icon">📊</div>
+        <div class="page-title">Dashboard</div>
+        <div class="page-desc">Admin/overview dashboard. KPIs, charts, alerts, recent activity.</div>
+        <div class="page-btn">Open →</div>
+      </a>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Features -->
+    <div class="features">
+      <h2>✨ Features Implemented</h2>
+      <ul>
+        <li>Complete user authentication (login/signup)</li>
+        <li>Persistent storage (localStorage)</li>
+        <li>Patient intake form with conditional routing</li>
+        <li>Real-time vital signs display (6 metrics)</li>
+        <li>Manual vitals entry with modal</li>
+        <li>Device connection interface</li>
+        <li>Interactive charts (Chart.js)</li>
+        <li>Doctor listing & filtering</li>
+        <li>Consultation waiting room</li>
+        <li>KPI dashboard with analytics</li>
+        <li>Critical alerts panel</li>
+        <li>Recent activity feed</li>
+        <li>Responsive design (desktop/tablet/mobile)</li>
+        <li>Accessible UI (keyboard nav, color contrast)</li>
+        <li>Hospital-grade medical theme</li>
+      </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Getting Started -->
+    <div class="getting-started">
+      <h3>🚀 Quick Start</h3>
+      <ol>
+        <li>Start your Node server: <code style="background: rgba(0,0,0,0.1); padding: 4px 8px; border-radius: 4px;">node server.js</code></li>
+        <li>Open <a href="http://localhost:3000/signup.html" style="color: #F57C00; font-weight: 600;">http://localhost:3000/signup.html</a> (create account)</li>
+        <li>Or go to <a href="http://localhost:3000/login.html" style="color: #F57C00; font-weight: 600;">http://localhost:3000/login.html</a> (existing user)</li>
+        <li>Explore the flows: Patient Details → Monitoring → Consult Doctor</li>
+        <li>View Dashboard for admin overview</li>
+      </ol>
+    </div>
+
+    <!-- Tech Stack -->
+    <div style="background: #f8fafc; border-radius: 12px; padding: 24px;">
+      <h3 style="color: #1E293B; margin-bottom: 16px;">🛠 Tech Stack</h3>
+      <div class="tech-stack">
+        <div class="tech-item">HTML5</div>
+        <div class="tech-item">CSS3 (Modern)</div>
+        <div class="tech-item">Vanilla JS</div>
+        <div class="tech-item">Chart.js</div>
+        <div class="tech-item">LocalStorage</div>
+        <div class="tech-item">Responsive Design</div>
+      </div>
+    </div>
+
+    <!-- File Structure -->
+    <div style="background: #f0f9ff; border-radius: 12px; padding: 24px; margin-top: 24px;">
+      <h3 style="color: #0B75D6; margin-bottom: 12px;">📁 File Structure</h3>
+      <pre style="background: #fff; border: 1px solid #bfdbfe; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 12px;"><code>public/
+├── css/
+│   └── app.css              # Complete UI framework (1000+ lines)
+├── js/
+│   └── patient.js           # Patient details logic
+├── login.html               # Authentication page
+├── signup.html              # Registration page
+├── patient-details.html     # Patient intake form
+├── monitoring.html          # Vitals dashboard
+├── consult.html             # Doctor consultation
+├── dashboard.html           # Admin dashboard
+└── index.html               # (optional landing page)
+
+API-STUBS.js                 # Example backend routes
+README-UI.md                 # Complete documentation</code></pre>
+    </div>
+
+    <!-- Integration Notes -->
+    <div style="background: #ede9fe; border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 20px; margin-top: 24px;">
+      <h3 style="color: #7c3aed; margin-bottom: 12px;">🔌 Backend Integration Ready</h3>
+      <p style="font-size: 13px; line-height: 1.6; color: #6b21a8;">
+        All pages use mock data (localStorage). To connect to a backend:<br/>
+        1. See <code style="background: rgba(0,0,0,0.1); padding: 2px 6px;">API-STUBS.js</code> for example Express routes<br/>
+        2. Replace localStorage calls with API fetch/POST requests<br/>
+        3. Implement JWT authentication<br/>
+        4. Add WebSocket for real-time vitals<br/>
+        5. Connect to MongoDB/PostgreSQL database
+      </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Next Steps -->
+    <div style="background: #dcfce7; border-radius: 12px; padding: 24px;">
+      <h3 style="color: #0F9D58; margin-bottom: 16px;">📋 Next Steps (Optional)</h3>
+      <ul style="margin-left: 20px; line-height: 1.8; font-size: 14px;">
+        <li>✅ <strong>Backend Routes</strong>: Implement `/api/auth`, `/api/patients`, `/api/monitoring`, `/api/consults`</li>
+        <li>✅ <strong>Database</strong>: Connect MongoDB or PostgreSQL for persistent storage</li>
+        <li>✅ <strong>Real-time Data</strong>: Add WebSocket for live vitals streaming</li>
+        <li>✅ <strong>Video Calls</strong>: Integrate WebRTC or Agora SDK for consultations</li>
+        <li>✅ <strong>Notifications</strong>: Add push/email alerts for critical vitals</li>
+        <li>✅ <strong>PDF Export</strong>: Server-side rendering for medical records</li>
+        <li>✅ <strong>Mobile App</strong>: Wrap with React Native or Flutter for iOS/Android</li>
+        <li>✅ <strong>Analytics</strong>: Add Mixpanel/Amplitude for user behavior tracking</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>HealthMonitor v1.0 | Production-ready UI System | Created Nov 30, 2025</p>
+      <p style="margin-top: 12px;">📖 Read <code>README-UI.md</code> for complete documentation</p>
+    </footer>
+  </div>
+</body>
+</html>

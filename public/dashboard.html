@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <span>❤️</span> <span>HealthMonitor</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html" class="active">📊 Dashboard</a></li>
+        <li><a href="patient-details.html">👤 Patient Details</a></li>
+        <li><a href="monitoring.html">📈 Monitoring</a></li>
+        <li><a href="consult.html">🏥 Consult Doctor</a></li>
+        <li><a href="records.html">📋 Records</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>v1.0</div>
+        <a href="login.html" style="color: var(--primary); text-decoration: none;">Logout</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="search-bar">
+            <input type="text" placeholder="Search patients, records..." />
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon">🔔</button>
+          <div class="avatar" id="userAvatar">JD</div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle" id="dateTime"></p>
+          </div>
+          <button class="btn btn-primary">+ New Patient</button>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-4" style="margin-bottom: var(--spacing-lg);">
+          <div class="kpi-card">
+            <div class="kpi-content">
+              <div class="kpi-label">Total Users Today</div>
+              <div class="kpi-value">1,243</div>
+              <div class="kpi-delta">↑ 12.5% from yesterday</div>
+            </div>
+            <div class="kpi-icon">👥</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-content">
+              <div class="kpi-label">Registered Patients</div>
+              <div class="kpi-value">3,847</div>
+              <div class="kpi-delta">↑ 8 new this week</div>
+            </div>
+            <div class="kpi-icon">📋</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-content">
+              <div class="kpi-label">Live Monitoring</div>
+              <div class="kpi-value">342</div>
+              <div class="kpi-delta">↑ 24 active sessions</div>
+            </div>
+            <div class="kpi-icon">📈</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-content">
+              <div class="kpi-label">Ongoing Consults</div>
+              <div class="kpi-value">18</div>
+              <div class="kpi-delta">Avg wait: 8 min</div>
+            </div>
+            <div class="kpi-icon">🏥</div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-2" style="margin-bottom: var(--spacing-lg);">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Heart Rate Distribution</div>
+                <div class="card-subtitle">All monitored patients (24h)</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="hrDistChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">System Health</div>
+                <div class="card-subtitle">API & Server Status</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="healthChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Patients & Activity -->
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Critical Alerts</div>
+                <div class="card-subtitle">Patients requiring attention</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+                <div style="padding: var(--spacing-md); background: var(--danger-light); border-radius: var(--radius-md); border-left: 4px solid var(--danger);">
+                  <div style="font-weight: 600; color: var(--danger); margin-bottom: var(--spacing-sm);">⚠️ High Blood Pressure</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Patient ID: P-12847 | BP: 160/95</div>
+                  <div style="font-size: 11px; color: var(--danger); margin-top: var(--spacing-sm);">Reported 2 min ago</div>
+                </div>
+
+                <div style="padding: var(--spacing-md); background: var(--warning-light); border-radius: var(--radius-md); border-left: 4px solid var(--warning);">
+                  <div style="font-weight: 600; color: var(--warning); margin-bottom: var(--spacing-sm);">⚠️ Low SpO2 Level</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Patient ID: P-12843 | SpO2: 92%</div>
+                  <div style="font-size: 11px; color: var(--warning); margin-top: var(--spacing-sm);">Reported 5 min ago</div>
+                </div>
+
+                <div style="padding: var(--spacing-md); background: var(--success-light); border-radius: var(--radius-md); border-left: 4px solid var(--success);">
+                  <div style="font-weight: 600; color: var(--success); margin-bottom: var(--spacing-sm);">✓ All Clear</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">1,089 patients within normal range</div>
+                  <div style="font-size: 11px; color: var(--success); margin-top: var(--spacing-sm);">Last updated 1 min ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Recent Activity</div>
+                <div class="card-subtitle">Latest events and actions</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: var(--spacing-md); font-size: 13px;">
+                <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color);">
+                  <div style="font-size: 20px;">👤</div>
+                  <div>
+                    <div style="font-weight: 600;">New patient registered</div>
+                    <div style="color: var(--text-muted);">Sarah Thompson | 5 min ago</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color);">
+                  <div style="font-size: 20px;">📈</div>
+                  <div>
+                    <div style="font-weight: 600;">Health monitoring started</div>
+                    <div style="color: var(--text-muted);">Patient P-12891 | 12 min ago</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid var(--border-color);">
+                  <div style="font-size: 20px;">🏥</div>
+                  <div>
+                    <div style="font-weight: 600;">Consultation completed</div>
+                    <div style="color: var(--text-muted);">Dr. Ahmed Hassan | 18 min ago</div>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: var(--spacing-md);">
+                  <div style="font-size: 20px;">📊</div>
+                  <div>
+                    <div style="font-weight: 600;">Report generated</div>
+                    <div style="color: var(--text-muted);">Daily health summary | 32 min ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('userAvatar').innerText = currentUser.fullname.substring(0, 2).toUpperCase();
+
+    // Update date/time
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById('dateTime').innerText = now.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+    updateDateTime();
+
+    // HR Distribution Chart (Histogram/Bar)
+    const hrDistCtx = document.getElementById('hrDistChart').getContext('2d');
+    new Chart(hrDistCtx, {
+      type: 'bar',
+      data: {
+        labels: ['50-60', '60-70', '70-80', '80-90', '90-100', '100+'],
+        datasets: [{
+          label: 'Number of Patients',
+          data: [45, 523, 892, 387, 124, 38],
+          backgroundColor: '#0B75D6',
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // System Health Chart (Doughnut)
+    const healthCtx = document.getElementById('healthChart').getContext('2d');
+    new Chart(healthCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Healthy (99.2%)', 'Warnings (0.6%)', 'Critical (0.2%)'],
+        datasets: [{
+          data: [99.2, 0.6, 0.2],
+          backgroundColor: ['#0F9D58', '#F57C00', '#E53935'],
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  </script>

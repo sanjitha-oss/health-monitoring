@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Details - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <span>❤️</span> <span>HealthMonitor</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">📊 Dashboard</a></li>
+        <li><a href="patient-details.html" class="active">👤 Patient Details</a></li>
+        <li><a href="monitoring.html">📈 Monitoring</a></li>
+        <li><a href="consult.html">🏥 Consult Doctor</a></li>
+        <li><a href="records.html">📋 Records</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>v1.0</div>
+        <a href="login.html" style="color: var(--primary); text-decoration: none;">Logout</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="search-bar">
+            <input type="text" placeholder="Search patients or NHS..." />
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon">🔔</button>
+          <div class="avatar" id="userAvatar">JD</div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Patient Information</h1>
+            <p class="page-subtitle">Please enter your complete health details</p>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="card" style="max-width: 700px;">
+          <form id="patientForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" placeholder="John Smith" required />
+              </div>
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" placeholder="35" min="1" max="150" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="nhs">NHS Number</label>
+                <input type="text" id="nhs" placeholder="123 456 7890" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea id="address" rows="3" placeholder="Enter your home address"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="condition">Existing Disease / Condition</label>
+              <input type="text" id="condition" placeholder="e.g. Diabetes, Asthma, Hypertension" />
+            </div>
+
+            <div class="form-group">
+              <label>Do you want to consult a doctor?</label>
+              <div style="display: flex; gap: var(--spacing-lg); margin-top: var(--spacing-sm);">
+                <label><input type="radio" name="wantConsult" value="yes" /> Yes</label>
+                <label><input type="radio" name="wantConsult" value="no" /> No</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Do you want to monitor your health?</label>
+              <div style="display: flex; gap: var(--spacing-lg); margin-top: var(--spacing-sm);">
+                <label><input type="radio" name="wantMonitor" value="yes" required /> Yes</label>
+                <label><input type="radio" name="wantMonitor" value="no" /> No</label>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="card-footer" style="margin-top: var(--spacing-lg); border: none; padding: 0;">
+              <button type="reset" class="btn btn-secondary">Clear</button>
+              <button type="submit" class="btn btn-primary">Save & Continue</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-2" style="margin-top: var(--spacing-lg); max-width: 700px;">
+          <a href="monitoring.html" style="text-decoration: none;">
+            <div class="card text-center" style="cursor: pointer; padding: var(--spacing-xl);">
+              <div style="font-size: 48px; margin-bottom: var(--spacing-md);">📈</div>
+              <div class="card-title">Health Monitoring</div>
+              <div class="card-subtitle">Track your vitals in real-time</div>
+            </div>
+          </a>
+          <a href="consult.html" style="text-decoration: none;">
+            <div class="card text-center" style="cursor: pointer; padding: var(--spacing-xl);">
+              <div style="font-size: 48px; margin-bottom: var(--spacing-md);">🏥</div>
+              <div class="card-title">Consult a Doctor</div>
+              <div class="card-subtitle">Connect with a healthcare professional</div>
+            </div>
+          </a>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      window.location.href = 'login.html';
+    }
+
+    // Update avatar
+    document.getElementById('userAvatar').innerText = currentUser.fullname.substring(0, 2).toUpperCase();
+
+    // Handle form submission
+    document.getElementById('patientForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const patientData = {
+        fullname: document.getElementById('fullname').value,
+        age: document.getElementById('age').value,
+        gender: document.getElementById('gender').value,
+        nhs: document.getElementById('nhs').value,
+        address: document.getElementById('address').value,
+        condition: document.getElementById('condition').value,
+        wantConsult: document.querySelector('input[name="wantConsult"]:checked')?.value,
+        wantMonitor: document.querySelector('input[name="wantMonitor"]:checked')?.value,
+        savedAt: new Date().toISOString(),
+      };
+
+      // Save to localStorage
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      currentUser.patientDetails = patientData;
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+      // Show success and redirect
+      alert('Patient details saved successfully!');
+
+      if (patientData.wantMonitor === 'yes') {
+        window.location.href = 'monitoring.html';
+      } else if (patientData.wantConsult === 'yes') {
+        window.location.href = 'consult.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    });
+  </script>
+</body>
+</html>

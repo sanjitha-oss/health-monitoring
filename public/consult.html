@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consult a Doctor - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <span>❤️</span> <span>HealthMonitor</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">📊 Dashboard</a></li>
+        <li><a href="patient-details.html">👤 Patient Details</a></li>
+        <li><a href="monitoring.html">📈 Monitoring</a></li>
+        <li><a href="consult.html" class="active">🏥 Consult Doctor</a></li>
+        <li><a href="records.html">📋 Records</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>v1.0</div>
+        <a href="login.html" style="color: var(--primary); text-decoration: none;">Logout</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="search-bar">
+            <input type="text" placeholder="Search doctors or specialists..." />
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon">🔔</button>
+          <div class="avatar" id="userAvatar">JD</div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Consult a Doctor</h1>
+            <p class="page-subtitle">Connect with healthcare professionals</p>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="card" style="margin-bottom: var(--spacing-lg); padding: var(--spacing-lg);">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md);">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Specialty</label>
+              <select>
+                <option>All Specialties</option>
+                <option>General Practice</option>
+                <option>Cardiology</option>
+                <option>Endocrinology</option>
+                <option>Neurology</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Availability</label>
+              <select>
+                <option>Anytime</option>
+                <option>Next 1 hour</option>
+                <option>Next 24 hours</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Consult Type</label>
+              <select>
+                <option>All Types</option>
+                <option>Chat</option>
+                <option>Video</option>
+                <option>Audio</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctor Cards Grid -->
+        <div class="grid grid-3">
+          <!-- Doctor 1 -->
+          <div class="card" style="cursor: pointer; transition: var(--transition);">
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0B75D6, #084594); margin: 0 auto var(--spacing-md); display: flex; align-items: center; justify-content: center; font-size: 36px;">👨‍⚕️</div>
+              <div class="card-title">Dr. Ahmed Hassan</div>
+              <div class="card-subtitle">General Practice</div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--spacing-sm);">⭐ 4.8 (234 reviews)</div>
+              <div style="display: flex; justify-content: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm);">
+                <span class="badge">💬 Chat</span>
+                <span class="badge">🎥 Video</span>
+              </div>
+              <div style="font-size: 14px; color: var(--success); font-weight: 600;">Available now</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Est. Wait</label>
+              <div style="font-size: 18px; font-weight: 700; color: var(--primary);">5 min</div>
+            </div>
+
+            <div class="card-footer" style="margin-top: var(--spacing-lg); border: none; padding: 0; justify-content: stretch;">
+              <button class="btn btn-primary btn-block" onclick="connectDoctor('Dr. Ahmed Hassan')">Request Now</button>
+            </div>
+          </div>
+
+          <!-- Doctor 2 -->
+          <div class="card" style="cursor: pointer; transition: var(--transition);">
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0F9D58, #0d7e45); margin: 0 auto var(--spacing-md); display: flex; align-items: center; justify-content: center; font-size: 36px;">👩‍⚕️</div>
+              <div class="card-title">Dr. Sarah Johnson</div>
+              <div class="card-subtitle">Cardiology</div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--spacing-sm);">⭐ 4.9 (512 reviews)</div>
+              <div style="display: flex; justify-content: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm);">
+                <span class="badge">💬 Chat</span>
+                <span class="badge">🎥 Video</span>
+              </div>
+              <div style="font-size: 14px; color: var(--warning);">Available in 15 min</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Est. Wait</label>
+              <div style="font-size: 18px; font-weight: 700; color: var(--primary);">15 min</div>
+            </div>
+
+            <div class="card-footer" style="margin-top: var(--spacing-lg); border: none; padding: 0; justify-content: stretch;">
+              <button class="btn btn-primary btn-block" onclick="connectDoctor('Dr. Sarah Johnson')">Request Now</button>
+            </div>
+          </div>
+
+          <!-- Doctor 3 -->
+          <div class="card" style="cursor: pointer; transition: var(--transition);">
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #F57C00, #E65100); margin: 0 auto var(--spacing-md); display: flex; align-items: center; justify-content: center; font-size: 36px;">👨‍⚕️</div>
+              <div class="card-title">Dr. Raj Patel</div>
+              <div class="card-subtitle">Endocrinology</div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: var(--spacing-lg);">
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--spacing-sm);">⭐ 4.7 (189 reviews)</div>
+              <div style="display: flex; justify-content: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm);">
+                <span class="badge">💬 Chat</span>
+                <span class="badge">🎥 Video</span>
+              </div>
+              <div style="font-size: 14px; color: #F57C00;">Available in 30 min</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Est. Wait</label>
+              <div style="font-size: 18px; font-weight: 700; color: var(--primary);">30 min</div>
+            </div>
+
+            <div class="card-footer" style="margin-top: var(--spacing-lg); border: none; padding: 0; justify-content: stretch;">
+              <button class="btn btn-primary btn-block" onclick="connectDoctor('Dr. Raj Patel')">Request Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ongoing Consultations -->
+        <div class="card" style="margin-top: var(--spacing-lg);">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Your Consultations</div>
+              <div class="card-subtitle">Recent and ongoing sessions</div>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dr. Emily Brown</td>
+                <td>2025-11-28</td>
+                <td>18 min</td>
+                <td>Video</td>
+                <td><span class="badge badge-success">Completed</span></td>
+                <td><a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600;">View Summary</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Waiting Room Modal -->
+  <div class="modal-overlay" id="waitingRoomModal">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Consultation Waiting Room</h2>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin: var(--spacing-lg) 0;">
+          <div style="font-size: 48px; margin-bottom: var(--spacing-lg);">⏳</div>
+          <div class="card-title" style="margin-bottom: var(--spacing-sm);">You are in queue</div>
+          <div style="font-size: 28px; font-weight: 700; color: var(--primary); margin: var(--spacing-md) 0;">Queue Position: #<span id="queuePos">2</span></div>
+          <div style="font-size: 14px; color: var(--text-muted); margin-bottom: var(--spacing-lg);">Estimated wait: <strong id="estimatedWait">5 minutes</strong></div>
+        </div>
+
+        <div class="alert alert-info">
+          <strong>Tip:</strong> We'll notify you when the doctor is ready. You can keep this window open.
+        </div>
+
+        <div class="card" style="background: var(--grey-50); margin: var(--spacing-lg) 0;">
+          <div class="card-title" style="margin-bottom: var(--spacing-md);">Your Current Vitals</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); text-align: center;">
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted);">Heart Rate</div>
+              <div style="font-size: 20px; font-weight: 700; color: var(--primary);">72 bpm</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted);">BP</div>
+              <div style="font-size: 20px; font-weight: 700; color: var(--primary);">120/80</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted);">SpO2</div>
+              <div style="font-size: 20px; font-weight: 700; color: var(--primary);">98%</div>
+            </div>
+            <div>
+              <div style="font-size: 12px; color: var(--text-muted);">Temp</div>
+              <div style="font-size: 20px; font-weight: 700; color: var(--primary);">36.5°C</div>
+            </div>
+          </div>
+        </div>
+
+        <label style="margin-top: var(--spacing-lg);">
+          <input type="checkbox" id="shareVitals" checked /> Share my vitals with the doctor
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeWaitingRoom()">Leave Queue</button>
+        <button class="btn btn-primary" id="joinCallBtn" style="display: none;">🎥 Join Consultation</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('userAvatar').innerText = currentUser.fullname.substring(0, 2).toUpperCase();
+
+    function connectDoctor(doctorName) {
+      alert('Requesting consultation with ' + doctorName + '...');
+      document.getElementById('waitingRoomModal').classList.add('active');
+
+      // Simulate doctor joining after 5 seconds
+      setTimeout(() => {
+        document.getElementById('joinCallBtn').style.display = 'block';
+        alert('Doctor ' + doctorName + ' is ready! Click "Join Consultation" to start the session.');
+      }, 5000);
+    }
+
+    function closeWaitingRoom() {
+      document.getElementById('waitingRoomModal').classList.remove('active');
+      document.getElementById('joinCallBtn').style.display = 'none';
+    }
+
+    document.getElementById('joinCallBtn').addEventListener('click', () => {
+      alert('Starting video consultation... (mock session)');
+      window.location.href = 'consultation-room.html';
+    });
+  </script>
+</body>
+</html>

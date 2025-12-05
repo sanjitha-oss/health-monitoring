@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Monitoring - Health Monitor</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <span>❤️</span> <span>HealthMonitor</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="dashboard.html">📊 Dashboard</a></li>
+        <li><a href="patient-details.html">👤 Patient Details</a></li>
+        <li><a href="monitoring.html" class="active">📈 Monitoring</a></li>
+        <li><a href="consult.html">🏥 Consult Doctor</a></li>
+        <li><a href="records.html">📋 Records</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div>v1.0</div>
+        <a href="login.html" style="color: var(--primary); text-decoration: none;">Logout</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="search-bar">
+            <input type="text" placeholder="Search or filter vitals..." />
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="topbar-icon">🔔</button>
+          <div class="avatar" id="userAvatar">JD</div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Health Monitoring</h1>
+            <p class="page-subtitle">Real-time vital signs tracking</p>
+          </div>
+          <div style="display: flex; gap: var(--spacing-md);">
+            <button class="btn btn-secondary" id="connectDeviceBtn">🔌 Connect Device</button>
+            <button class="btn btn-primary" id="addReadingBtn">+ Add Reading</button>
+          </div>
+        </div>
+
+        <!-- Alert -->
+        <div id="alerts"></div>
+
+        <!-- Live Vitals Grid -->
+        <div class="grid grid-3" style="margin-bottom: var(--spacing-lg);">
+          <div class="vital-card">
+            <div class="vital-label">Heart Rate</div>
+            <div class="vital-value" id="hrValue">72</div>
+            <div class="vital-unit">bpm</div>
+            <div class="vital-status">Normal</div>
+          </div>
+
+          <div class="vital-card">
+            <div class="vital-label">Blood Pressure</div>
+            <div class="vital-value" id="bpValue">120/80</div>
+            <div class="vital-unit">mmHg</div>
+            <div class="vital-status">Normal</div>
+          </div>
+
+          <div class="vital-card">
+            <div class="vital-label">Oxygen Level</div>
+            <div class="vital-value" id="spo2Value">98</div>
+            <div class="vital-unit">%</div>
+            <div class="vital-status">Normal</div>
+          </div>
+
+          <div class="vital-card">
+            <div class="vital-label">Temperature</div>
+            <div class="vital-value" id="tempValue">36.5</div>
+            <div class="vital-unit">°C</div>
+            <div class="vital-status">Normal</div>
+          </div>
+
+          <div class="vital-card">
+            <div class="vital-label">Respiration Rate</div>
+            <div class="vital-value" id="rrValue">16</div>
+            <div class="vital-unit">breaths/min</div>
+            <div class="vital-status">Normal</div>
+          </div>
+
+          <div class="vital-card">
+            <div class="vital-label">Stress Index</div>
+            <div class="vital-value" id="stressValue">Low</div>
+            <div class="vital-unit">Level</div>
+            <div class="vital-status success" style="background: var(--success-light); color: var(--success);">✓ Healthy</div>
+          </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Heart Rate Trend</div>
+                <div class="card-subtitle">Last 24 hours</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="hrChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Blood Pressure Trend</div>
+                <div class="card-subtitle">Last 24 hours</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="bpChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Readings -->
+        <div class="card" style="margin-top: var(--spacing-lg);">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Recent Readings</div>
+              <div class="card-subtitle">Latest 10 entries</div>
+            </div>
+            <button class="btn btn-secondary btn-sm">📥 Export</button>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>HR (bpm)</th>
+                <th>BP (mmHg)</th>
+                <th>SpO2 (%)</th>
+                <th>Temp (°C)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="readingsTable">
+              <tr>
+                <td>2025-11-30 14:32</td>
+                <td>72</td>
+                <td>120/80</td>
+                <td>98</td>
+                <td>36.5</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>2025-11-30 14:00</td>
+                <td>75</td>
+                <td>118/78</td>
+                <td>97</td>
+                <td>36.4</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal for Adding Reading -->
+  <div class="modal-overlay" id="readingModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Add Vital Reading</h2>
+        <button class="modal-close" id="closeReadingModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Heart Rate (bpm)</label>
+            <input type="number" id="inputHr" placeholder="e.g. 72" min="40" max="200" />
+          </div>
+          <div class="form-group">
+            <label>Systolic BP (mmHg)</label>
+            <input type="number" id="inputBpSys" placeholder="e.g. 120" min="80" max="200" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Diastolic BP (mmHg)</label>
+            <input type="number" id="inputBpDia" placeholder="e.g. 80" min="40" max="130" />
+          </div>
+          <div class="form-group">
+            <label>SpO2 (%)</label>
+            <input type="number" id="inputSpo2" placeholder="e.g. 98" min="70" max="100" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Temperature (°C)</label>
+            <input type="number" id="inputTemp" placeholder="e.g. 36.5" min="35" max="42" step="0.1" />
+          </div>
+          <div class="form-group">
+            <label>Respiration Rate</label>
+            <input type="number" id="inputRr" placeholder="e.g. 16" min="12" max="30" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Stress Level</label>
+          <select id="inputStress">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelReadingBtn">Cancel</button>
+        <button class="btn btn-primary" id="saveReadingBtn">Save Reading</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Device Connection -->
+  <div class="modal-overlay" id="deviceModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Connect Device</h2>
+        <button class="modal-close" id="closeDeviceModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: var(--spacing-lg);">Available devices for pairing:</p>
+        <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+          <div class="card" style="cursor: pointer; padding: var(--spacing-md); background: var(--primary-light); border-color: var(--primary);">
+            <div style="font-weight: 600; margin-bottom: var(--spacing-sm);">Fitbit Sense</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Smart watch - HR, Steps, Sleep</div>
+          </div>
+          <div class="card" style="cursor: pointer; padding: var(--spacing-md); border-color: var(--border-color);">
+            <div style="font-weight: 600; margin-bottom: var(--spacing-sm);">Omron BP Monitor</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Blood Pressure Monitor - WiFi enabled</div>
+          </div>
+          <div class="card" style="cursor: pointer; padding: var(--spacing-md); border-color: var(--border-color);">
+            <div style="font-weight: 600; margin-bottom: var(--spacing-sm);">Withings Body Scale</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Smart Scale - Weight & BMI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('userAvatar').innerText = currentUser.fullname.substring(0, 2).toUpperCase();
+
+    // Modal handlers
+    document.getElementById('addReadingBtn').addEventListener('click', () => {
+      document.getElementById('readingModal').classList.add('active');
+    });
+
+    document.getElementById('closeReadingModal').addEventListener('click', () => {
+      document.getElementById('readingModal').classList.remove('active');
+    });
+
+    document.getElementById('cancelReadingBtn').addEventListener('click', () => {
+      document.getElementById('readingModal').classList.remove('active');
+    });
+
+    document.getElementById('connectDeviceBtn').addEventListener('click', () => {
+      document.getElementById('deviceModal').classList.add('active');
+    });
+
+    document.getElementById('closeDeviceModal').addEventListener('click', () => {
+      document.getElementById('deviceModal').classList.remove('active');
+    });
+
+    // Save reading
+    document.getElementById('saveReadingBtn').addEventListener('click', () => {
+      const reading = {
+        timestamp: new Date().toLocaleString(),
+        hr: document.getElementById('inputHr').value,
+        bp_sys: document.getElementById('inputBpSys').value,
+        bp_dia: document.getElementById('inputBpDia').value,
+        spo2: document.getElementById('inputSpo2').value,
+        temp: document.getElementById('inputTemp').value,
+        rr: document.getElementById('inputRr').value,
+        stress: document.getElementById('inputStress').value,
+      };
+
+      // Update display
+      document.getElementById('hrValue').innerText = reading.hr;
+      document.getElementById('bpValue').innerText = `${reading.bp_sys}/${reading.bp_dia}`;
+      document.getElementById('spo2Value').innerText = reading.spo2;
+      document.getElementById('tempValue').innerText = reading.temp;
+      document.getElementById('rrValue').innerText = reading.rr;
+
+      // Add to table
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${reading.timestamp}</td>
+        <td>${reading.hr}</td>
+        <td>${reading.bp_sys}/${reading.bp_dia}</td>
+        <td>${reading.spo2}</td>
+        <td>${reading.temp}</td>
+        <td><span class="badge badge-success">Normal</span></td>
+      `;
+      document.getElementById('readingsTable').prepend(newRow);
+
+      // Save to localStorage
+      let readings = JSON.parse(localStorage.getItem('readings') || '[]');
+      readings.unshift(reading);
+      localStorage.setItem('readings', JSON.stringify(readings));
+
+      // Close modal and reset form
+      document.getElementById('readingModal').classList.remove('active');
+      document.querySelector('#readingModal input').value = '';
+      alert('Reading saved successfully!');
+    });
+
+    // Initialize charts
+    const hrCtx = document.getElementById('hrChart').getContext('2d');
+    new Chart(hrCtx, {
+      type: 'line',
+      data: {
+        labels: ['12 AM', '4 AM', '8 AM', '12 PM', '4 PM', '8 PM', '12 AM'],
+        datasets: [{
+          label: 'Heart Rate',
+          data: [68, 66, 72, 75, 78, 74, 70],
+          borderColor: '#0B75D6',
+          backgroundColor: 'rgba(11, 117, 214, 0.1)',
+          tension: 0.4,
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: false,
+            min: 60,
+            max: 100,
+          }
+        }
+      }
+    });
+
+    const bpCtx = document.getElementById('bpChart').getContext('2d');
+    new Chart(bpCtx, {
+      type: 'line',
+      data: {
+        labels: ['12 AM', '4 AM', '8 AM', '12 PM', '4 PM', '8 PM', '12 AM'],
+        datasets: [
+          {
+            label: 'Systolic',
+            data: [118, 120, 122, 121, 120, 118, 119],
+            borderColor: '#0B75D6',
+            backgroundColor: 'rgba(11, 117, 214, 0.1)',
+            tension: 0.4,
+            fill: true,
+          },
+          {
+            label: 'Diastolic',
+            data: [76, 78, 80, 79, 78, 77, 76],
+            borderColor: '#0F9D58',
+            backgroundColor: 'rgba(15, 157, 88, 0.1)',
+            tension: 0.4,
+            fill: true,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: true } },
+        scales: {
+          y: {
+            beginAtZero: false,
+            min: 60,
+            max: 130,
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
